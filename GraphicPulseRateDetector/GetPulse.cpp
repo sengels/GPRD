@@ -7,27 +7,24 @@
 #include <list>
 #include <iostream>
 
-//double GetPulse(std::list<cv::Mat> timeVector) //RGB Wert rausholen aus cv Mat in bekanntes Format
-double GetPulse(std::list<int> timeVector)
+double GetPulse(std::list<cv::Mat> timeVector) //RGB Wert rausholen aus cv Mat in bekanntes Format
 {
 	double *output[600];
 	std::list<int>vectorValues(600);
 	int x = 0, y = 0;
-	/*
-	for (std::list<int>::iterator it = timeVector.begin(); it != timeVector.end(); ++it) 
+	
+	for (std::list<cv::Mat>::iterator it = timeVector.begin(); it != timeVector.end(); ++it) 
 	{
 		//Funktion die aus einer Matrix einen Wert errechnet
 
 		int value = computeValue(*it, x, y); //Liest Wert an der Stelle (x,y) aus und schreibt ihn in value
 
 		vectorValues.push_back(value);		//erstellt eine Liste vectorValues mit Inhalten von values
-	}*/
+	}
 
 	int inputArray[600];
-	list2array(inputArray, timeVector);
 
-	//*output = timeVector;
-	
+	list2array(inputArray, vectorValues);
 
 	//output = cv::compareHist(inputArray,...);
 	cv::dft(*inputArray, *output, cv::DFT_ROWS, 600);		//DFT_SCALE? cv array
@@ -54,7 +51,6 @@ int computeValue(cv::Mat frame, int x, int y)
 
 int list2array(int inputArray[], std::list<int>vectorValues) 
 {
-	/*Converts vectorVales into Array*/
 	//http://stackoverflow.com/questions/2087582/converting-stdlist-to-c-friendly-type
 	
 	*inputArray = new int[vectorValues.size()];

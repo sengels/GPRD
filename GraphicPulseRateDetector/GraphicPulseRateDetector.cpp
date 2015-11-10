@@ -67,17 +67,13 @@ int main(int argc, char** argv) // funktionierende Version
 	{
 
 	}*/
-		
-		int x = 0, y = 0;
+
 	while (1)
 	{	
 		cap >> frame; // get a new frame from camera
 
-		//frameOutcut = frame(cv::Rect(x1, y1, x2-x1, y2-y1)).clone(); REPLACED BY PIXEL TEST
-		//imshow(outCutWindowName, frameOutcut); REPLACED BY PIXEL TEST
-		cv::Scalar intensity = frame.at<uchar>(cv::Point(x, y));
-		cv::Vec3b intensity = frame.at<cv::Vec3b>(y, x);
-		int pixelOutcut = intensity.val[1];
+		frameOutcut = frame(cv::Rect(x1, y1, x2-x1, y2-y1)).clone();
+		imshow(outCutWindowName, frameOutcut);
 
 		rectangle(frame, cv::Point(x1, y1), cv::Point(x2, y2), cv::Scalar(0, 0, 255));
 		cv::putText(frame, "Stirn hier platzieren!", cv::Point(250, 200), cv::FONT_HERSHEY_PLAIN, 1, cv::Scalar(0, 255, 0), 1, 1, 0);
@@ -110,13 +106,13 @@ int main(int argc, char** argv) // funktionierende Version
 		//statt 600 Matrix mit 0-Werten initialisiert
 
 		//Liste für den Fall, dass komplette Matrix übergeben wird
-		//std::list<cv::Mat> timeVector(600); //60 frames/sec * 10 sec	//REPLACED BY PIXEL TEST
-		std::list<int> timeVector(600); //60 frames/sec * 10 sec FOR PIXEL TEST
+		std::list<cv::Mat> timeVector(600); //60 frames/sec * 10 sec
+
 
 		
 		imshow(greenFilterWindowName, frameOutcut);
 
-		timeVector.push_front(pixelOutcut);
+		timeVector.push_front(frameOutcut);
 		
 		GetPulse(timeVector);
 
