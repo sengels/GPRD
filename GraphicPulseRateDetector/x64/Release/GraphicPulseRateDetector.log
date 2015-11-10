@@ -1,0 +1,41 @@
+﻿Build started 30.10.2015 10:57:46.
+     1>Project "C:\Users\Michael\documents\visual studio 2015\Projects\GraphicPulseRateDetector\GraphicPulseRateDetector\GraphicPulseRateDetector.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /IC:\OpenCV\opencv\build\include /Zi /nologo /W3 /WX- /sdl /O2 /Oi /GL /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yu"stdafx.h" /Fp"x64\Release\GraphicPulseRateDetector.pch" /Fo"x64\Release\\" /Fd"x64\Release\vc140.pdb" /Gd /TP /errorReport:prompt GetPulse.cpp
+         GetPulse.cpp
+     1>GetPulse.cpp(3): warning C4627: '#include <opencv2/opencv.hpp>': skipped when looking for precompiled header use
+         GetPulse.cpp(3): note: Add directive to 'stdafx.h' or rebuild precompiled header
+     1>GetPulse.cpp(4): warning C4627: '#include <opencv2/imgproc.hpp>': skipped when looking for precompiled header use
+         GetPulse.cpp(4): note: Add directive to 'stdafx.h' or rebuild precompiled header
+     1>GetPulse.cpp(5): warning C4627: '#include "highgui.hpp"': skipped when looking for precompiled header use
+         GetPulse.cpp(5): note: Add directive to 'stdafx.h' or rebuild precompiled header
+     1>GetPulse.cpp(10): error C2653: 'cv': is not a class or namespace name
+     1>GetPulse.cpp(10): error C2065: 'Mat': undeclared identifier
+     1>GetPulse.cpp(10): error C2923: 'std::list': 'Mat' is not a valid template type argument for parameter '_Ty'
+     1>GetPulse.cpp(16): error C2653: 'cv': is not a class or namespace name
+     1>GetPulse.cpp(16): error C2065: 'Mat': undeclared identifier
+     1>GetPulse.cpp(16): error C2923: 'std::list': 'Mat' is not a valid template type argument for parameter '_Ty'
+     1>GetPulse.cpp(16): error C2955: 'std::list': use of class template requires template argument list
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\list(860): note: see declaration of 'std::list'
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\list(860): note: see declaration of 'std::list'
+     1>GetPulse.cpp(16): error C2663: 'std::list<_Ty,_Alloc>::begin': 2 overloads have no legal conversion for 'this' pointer
+     1>GetPulse.cpp(16): error C2663: 'std::list<_Ty,_Alloc>::end': 2 overloads have no legal conversion for 'this' pointer
+     1>GetPulse.cpp(20): error C3861: 'computeValue': identifier not found
+     1>GetPulse.cpp(27): error C3861: 'list2array': identifier not found
+     1>GetPulse.cpp(30): error C2653: 'cv': is not a class or namespace name
+     1>GetPulse.cpp(30): error C2065: 'DFT_ROWS': undeclared identifier
+     1>GetPulse.cpp(30): error C3861: 'dft': identifier not found
+     1>GetPulse.cpp(34): error C2440: 'return': cannot convert from 'double *' to 'double'
+         GetPulse.cpp(34): note: There is no context in which this conversion is possible
+     1>GetPulse.cpp(42): error C2653: 'cv': is not a class or namespace name
+     1>GetPulse.cpp(42): error C2065: 'Mat': undeclared identifier
+     1>GetPulse.cpp(42): error C2146: syntax error: missing ')' before identifier 'frame'
+     1>GetPulse.cpp(43): error C2143: syntax error: missing ';' before '{'
+     1>GetPulse.cpp(43): error C2447: '{': missing function header (old-style formal list?)
+     1>GetPulse.cpp(56): error C2440: '=': cannot convert from 'int *' to 'int'
+         GetPulse.cpp(56): note: There is no context in which this conversion is possible
+     1>Done Building Project "C:\Users\Michael\documents\visual studio 2015\Projects\GraphicPulseRateDetector\GraphicPulseRateDetector\GraphicPulseRateDetector.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:06.00
