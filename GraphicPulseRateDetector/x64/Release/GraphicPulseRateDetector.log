@@ -1,4 +1,4 @@
-﻿Build started 11.11.2015 10:58:09.
+﻿Build started 11.11.2015 11:31:10.
      1>Project "C:\Users\Michael\documents\visual studio 2015\Projects\GraphicPulseRateDetector\GraphicPulseRateDetector\GraphicPulseRateDetector.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /IC:\OpenCV\opencv\build\include /Zi /nologo /W3 /WX- /sdl /O2 /Oi /GL /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yu"stdafx.h" /Fp"x64\Release\GraphicPulseRateDetector.pch" /Fo"x64\Release\\" /Fd"x64\Release\vc140.pdb" /Gd /TP /errorReport:prompt GetPulse.cpp
@@ -11,13 +11,16 @@
          GetPulse.cpp(5): note: Add directive to 'stdafx.h' or rebuild precompiled header
      1>GetPulse.cpp(6): warning C4627: '#include "highgui.hpp"': skipped when looking for precompiled header use
          GetPulse.cpp(6): note: Add directive to 'stdafx.h' or rebuild precompiled header
-     1>GetPulse.cpp(11): error C2653: 'cv': is not a class or namespace name
-     1>GetPulse.cpp(11): error C2065: 'Mat': undeclared identifier
-     1>GetPulse.cpp(11): error C2146: syntax error: missing ')' before identifier 'timeVector'
-     1>GetPulse.cpp(12): error C2143: syntax error: missing ';' before '{'
-     1>GetPulse.cpp(12): error C2447: '{': missing function header (old-style formal list?)
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /IC:\OpenCV\opencv\build\include /Zi /nologo /W3 /WX- /sdl /O2 /Oi /GL /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"x64\Release\\" /Fd"x64\Release\vc140.pdb" /Gd /TP /errorReport:prompt GraphicPulseRateDetector.cpp
+         GraphicPulseRateDetector.cpp
+     1>GraphicPulseRateDetector.cpp(117): error C2664: 'double GetPulse(cv::Mat)': cannot convert argument 1 from 'std::list<cv::Mat,std::allocator<_Ty>>' to 'cv::Mat'
+                 with
+                 [
+                     _Ty=cv::Mat
+                 ]
+         GraphicPulseRateDetector.cpp(117): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
      1>Done Building Project "C:\Users\Michael\documents\visual studio 2015\Projects\GraphicPulseRateDetector\GraphicPulseRateDetector\GraphicPulseRateDetector.vcxproj" (Build target(s)) -- FAILED.
 
 Build FAILED.
 
-Time Elapsed 00:00:01.73
+Time Elapsed 00:00:04.20

@@ -7,6 +7,7 @@
 #include "stdafx.h"
 #include <list>
 #include <iostream>
+#include "GetPulse.h"
 
 double GetPulse(cv::Mat timeVector) //RGB Wert rausholen aus cv Mat in bekanntes Format
 {

@@ -60,6 +60,7 @@ int main(int argc, char** argv) // funktionierende Version
 	
 	cv::Mat frame;
 	cv::Mat frameOutcut;
+	std::list<cv::Mat> timeVector(600); //60 frames/sec * 10 sec
 
 	int i;
 	/*
@@ -106,7 +107,7 @@ int main(int argc, char** argv) // funktionierende Version
 		//statt 600 Matrix mit 0-Werten initialisiert
 
 		//Liste für den Fall, dass komplette Matrix übergeben wird
-		std::list<cv::Mat> timeVector(600); //60 frames/sec * 10 sec
+		
 
 
 		
