@@ -8,8 +8,10 @@
 //#include <opencv2/imgproc.hpp>
 #include "highgui.hpp"
 #include <string>
-//#include <list>
+#include <list>
+#include <vector>
 #include <iostream>
+#include <chrono>
 
 
 //using namespace cv;
@@ -22,111 +24,104 @@ const cv::String greenFilterWindowName = "Grün gefiltert";
 
 int main(int argc, char** argv) // funktionierende Version
 {
-	cv::VideoCapture cap(0); // open the default camera
-	if (!cap.isOpened())  // check if we succeeded
-		return -1;
+    cv::VideoCapture cap(0); // open the default camera
+    if (!cap.isOpened())  // check if we succeeded
+        return -1;
 
-	namedWindow(windowName, 1);
-	namedWindow(outCutWindowName, 1);
-	namedWindow(greenFilterWindowName, 1);
+    namedWindow(windowName, 1);
+//     namedWindow(outCutWindowName, 1);
+     namedWindow(greenFilterWindowName, 1);
 
-	
-	//CvSize size = cvSize((int cvGetCaptureProperty(capture, CV_CAP_PROP_FRAME_WIDTH),(int)cvGetCaptureProperty(capture, CV_CAP_PROP_FRAME_HEIGHT));
-	
-	/*double frameRate = cap.get(CV_CAP_PROP_FPS);		//refreshrate!?
-	double refreshrate;
-	double timestamp1=0;
-	double timestamp2=0;
+    
+    //CvSize size = cvSize((int cvGetCaptureProperty(capture, CV_CAP_PROP_FRAME_WIDTH),(int)cvGetCaptureProperty(capture, CV_CAP_PROP_FRAME_HEIGHT));
+//     cap.set(CV_CAP_PROP_FPS, 60);       //refreshrate!?
+    
+//     double frameRate = cap.get(CV_CAP_PROP_FPS);
+    /*double refreshrate;
+    double timestamp1=0;
+    double timestamp2=0;
 
-	timestamp1= cap.get(CV_CAP_)
-	timestamp2 = timestamp1;
+    timestamp1= cap.get(CV_CAP_)
+    timestamp2 = timestamp1;
 
-	refreshrate = timestamp2 - timestamp1;
+    refreshrate = timestamp2 - timestamp1;
 
-	int length = 10 * frameRate;	//10 für "Über 10 Sekunden messen"*/
-	double frameRate = 60;
+    int length = 10 * frameRate;    //10 für "Über 10 Sekunden messen"*/
 
-	int x1 = 300;
-	int y1 = 220;
-	int x2 = 340;
-	int y2 = 260;
+    int x1 = 300;
+    int y1 = 220;
+    int x2 = 340;
+    int y2 = 260;
 
-	int H_MIN = 53;
-	int H_MAX = 90;
-	int S_MIN = 74;
-	int S_MAX = 147;
-	int V_MIN = 160;
-	int V_MAX = 256;
-	
-	cv::Mat frame;
-	cv::Mat frameOutcut;
-	std::list<cv::Mat> timeVector(600); //60 frames/sec * 10 sec
+    int H_MIN = 53;
+    int H_MAX = 90;
+    int S_MIN = 74;
+    int S_MAX = 147;
+    int V_MIN = 160;
+    int V_MAX = 256;
+    
+    const int MAX_FRAMES = 200;
 
-	//int i;
-	/*
-	for (i = 1, i = 600, i++);
-	{
+    cv::Mat frame;
+    cv::Mat frameOutcut;
+    std::list<double> colorVector;
+    std::list<double> timeVector;
+    std::vector<double> v;
+    v.reserve(MAX_FRAMES);
 
-	}*/
-
-	while (1)
-	{	
-		cap >> frame; // get a new frame from camera
-
-		frameOutcut = frame(cv::Rect(x1, y1, x2-x1, y2-y1)).clone();
-		imshow(outCutWindowName, frameOutcut);
-
-		rectangle(frame, cv::Point(x1, y1), cv::Point(x2, y2), cv::Scalar(0, 0, 255));
-		cv::putText(frame, "Stirn hier platzieren!", cv::Point(250, 200), cv::FONT_HERSHEY_PLAIN, 1, cv::Scalar(0, 255, 0), 1, 1, 0);
-		
-		//std::cout <<"Framerate:" << frameRate <<std::endl;
-
-		cv::putText(frame, std::to_string(frameRate),cv::Point(0,50),cv::FONT_HERSHEY_COMPLEX,1,cv::Scalar(255,0,0),1,1,0);
-
-		imshow(windowName, frame);
-		cv::Mat channels[3];
-		cv::split(frameOutcut, channels);
-
-		// channel 0==blue, channel 1==green, channel 2==red
-		imshow(greenFilterWindowName, channels[1]);
-
-		getAverage(channels[2]);
-	
-		cv::Mat greenFiltered;
-		//green and ranges should be h:53-90 s:74-147 v: 160-255
-
-		//cv::subtract()
-		
-		//cv::mixChannels(frameOutcut, greenFiltered);
-		//cv::cvtColor(frameOutcut, greenFiltered, CV_RGB2HSV);
-		//cv::filter2D(frameOutcut, greenFiltered, -1,  );
-		
-		cv::inRange(frameOutcut, cv::Scalar(H_MIN, S_MIN, V_MIN), cv::Scalar(H_MAX, S_MAX, V_MAX), greenFiltered);
-		
-
-		imshow(greenFilterWindowName, greenFiltered);
-
-		//Timevektor anlegen
-		//Pixelwert auslesen, in Timevektor speichern
-		//Framerate auslesen
-
-		//statt 600 Matrix mit 0-Werten initialisiert
-
-		//Liste für den Fall, dass komplette Matrix übergeben wird
-		
+    double intervalLength = 0;
 
 
-		
-		imshow(greenFilterWindowName, frameOutcut);
+    cv::Rect cutout(x1, y1, x2-x1, y2-y1);
 
-		timeVector.push_front(frameOutcut);
-		
-		GetPulse(timeVector);
+    std::chrono::time_point<std::chrono::system_clock> start, end;
+    start = std::chrono::system_clock::now();
+ 
+    std::chrono::duration<double> elapsed_seconds;
+
+    PulseAnalyzer pa(MAX_FRAMES);
+
+    while (1)
+    {    
+        cap.grab();
+        cap.retrieve(frame, 0);
+
+        frameOutcut = frame(cutout).clone();
+        imshow(outCutWindowName, frameOutcut);
+
+        rectangle(frame, cv::Point(x1 - 1, y1 - 1), cv::Point(x2 + 2, y2 + 2), cv::Scalar(0, 0, 255));
+        cv::putText(frame, "Stirn hier platzieren!", cv::Point(250, 200), cv::FONT_HERSHEY_PLAIN, 1, cv::Scalar(0, 255, 0), 1, 1, 0);
+        
+        end = std::chrono::system_clock::now();
+        elapsed_seconds = end - start;
+        const double elapsed = elapsed_seconds.count();
+        start = end;
+        std::cout << (1.0 / elapsed) << "fps" << std::endl;
+
+        cv::putText(frame, std::to_string(1.0 / elapsed), cv::Point(0, 50), cv::FONT_HERSHEY_COMPLEX, 1, cv::Scalar(255, 0, 0), 1, 1, 0);
+
+        colorVector.push_back(pa.getAverage(frame(cutout)));
+        timeVector.push_back(elapsed_seconds.count());
+        intervalLength += elapsed_seconds.count();
+
+        if(colorVector.size() > MAX_FRAMES) {
+            colorVector.pop_front();
+            intervalLength -= timeVector.front();
+            timeVector.pop_front();
+            v.clear();
+            std::copy(colorVector.begin(), colorVector.end(), std::back_inserter(v));
+            double p = pa.getPulse(v, 10, 60) / intervalLength * 60.0;
+            cv::putText(frame, "ready: " + std::to_string(intervalLength) + "s / " + std::to_string(p) + "bps", cv::Point(0, 100), cv::FONT_HERSHEY_COMPLEX, 1, cv::Scalar(255, 0, 0), 1, 1, 0);
+        }
+//         else {
+//             std::cout << "next frame" << std::endl;
+        imshow(windowName, frame);
+//         }
+        // channel 0==blue, channel 1==green, channel 2==red
+//         imshow(greenFilterWindowName, channels[1]);
 
 
-		//timeVector[] = ;
-
-		if (cv::waitKey(30) >= 0) break;
-	}
-	return 0;
+        if (cv::waitKey(1) >= 0) break;
+    }
+    return 0;
 }

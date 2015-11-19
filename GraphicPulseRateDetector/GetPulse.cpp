@@ -1,82 +1,65 @@
 #pragma once
-//#include "stdafx.h"
+#include "GetPulse.h"
+#pragma comment(lib, "libfftw3-3")
+
 #include <opencv2/opencv.hpp>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/core/mat.hpp>
+#include <fftw3.h>
 #include "highgui.hpp"
 #include "stdafx.h"
 #include <list>
 #include <iostream>
 #include "GetPulse.h"
 
-unsigned char getAverage(cv::Mat m)
-{
-
-	long l = m.elemSize();
-	printf("%i (%i,%i) %i\n", l, m.rows, m.cols, m.at<unsigned char>(0, 0));
-	cv::Scalar mean = cv::mean(m);
-	std::cout << mean.val[0] << " " << mean.val[1] << " " << mean.val[2] << std::endl;
-
-	/*    for (cv::MatConstIterator it = m.begin(); m != m.end(); ++it) {
-	}*/
-	return (unsigned char)mean.val[0];
+PulseAnalyzer::PulseAnalyzer(const int& ncount) {
+    m_cp = (fftw_complex *)fftw_malloc(sizeof(fftw_complex) * ncount);
+    m_data = new double[ncount];
 }
 
-double GetPulse(std::list<cv::Mat> timeVector) //RGB Wert rausholen aus cv Mat in bekanntes Format
-{
-	double ret = 0;
-	cv::_OutputArray output;
-	/*std::list<int>vectorValues(600);
-	int x = 0, y = 0;
-	
-	for (cv::MatConstIterator it = timeVector.begin(); it != timeVector.end(); ++it) 
-	{
-		//Funktion die aus einer Matrix einen Wert errechnet
-
-		int value = computeValue(*it, x, y); //Liest Wert an der Stelle (x,y) aus und schreibt ihn in value
-
-		vectorValues.push_back(value);		//erstellt eine Liste vectorValues mit Inhalten von values
-	}
-	for(std::list<cv::Mat>::iterator it = timeVector.begin(); it != timeVector.end(); ++it) {
-inArray.push_back(*it);
-}
-	int inputArray[600];
-	*/
-	//list2array(inputArray, vectorValues);
-	cv::Mat inArray;
-	for (std::list<cv::Mat>::iterator it = timeVector.begin(); it != timeVector.end(); ++it) {
-		inArray.push_back(*it);
-	}
-	float pulseValue;
-	//output = cv::compareHist(inputArray,...);
-	cv::dft(inArray, output, cv::DFT_ROWS, 600);		//DFT_SCALE? cv array
-	//geht erst im Nachhinein. Funktion erwartet openCV format
-	//vectorElement = ein Element aus der Matrix mit Koordinaten (x,y)
-
-		return pulseValue;
+PulseAnalyzer::~PulseAnalyzer() {
+    fftw_free(m_cp);
+    delete[] m_data;
+    fftw_destroy_plan(m_plan);
 }
 
-//Bild einlesen -> cv-Format -> Bild bearbeiten mit openCV Funktionen/Filter 
-//-> RGB mit 3 Dimensionen Listenarray speichern (typ den ich kenne) Kopieren -> Manipulieren
-//-> Zurück in OpenCV Format
-//Mat > Array
-/*
-int computeValue(cv::Mat frame, int x, int y)
-{
-	int value;
-	unsigned char *input = (unsigned char*)(frame.data);
-
-	value = input[frame.step*x + y];
-
-	return value;
+double PulseAnalyzer::getAverage(cv::Mat m) const {
+    cv::Scalar mean = cv::mean(m);
+//     std::cout << mean.val[0] << " " << mean.val[1] << " " << mean.val[2] << std::endl;
+    return mean.val[1];
 }
 
-int list2array(int inputArray[], std::list<int>vectorValues) //list2array(dst, src)
+int PulseAnalyzer::getPulse(const std::vector<double>& timeVector, unsigned min, unsigned max) //RGB Wert rausholen aus cv Mat in bekanntes Format
 {
-	//http://stackoverflow.com/questions/2087582/converting-stdlist-to-c-friendly-type
-	
-	*inputArray = new int[vectorValues.size()];
-	copy(vectorValues.begin(), vectorValues.end(), inputArray);
+    double ret = 0;
+    const int ncount = timeVector.size();
+//     std::cout << "ncount: <" << ncount << ">" << std::endl;
+//     memset(m_cp, 0, sizeof(fftw_complex) * ncount);
+    static bool initialized = false;
+    memcpy(m_data, timeVector.data(), sizeof(double) * ncount);
+    if(!initialized) {
+        initialized = true;
+        m_plan = fftw_plan_dft_r2c_1d(ncount, m_data, m_cp, FFTW_MEASURE);
+//         std::cout << "found plan!" << (void*)m_plan << std::endl;
+    }
 
-	//return 
-}*/
+    fftw_execute(m_plan);
+
+    double rmax = 0.0, imax = 0.0;
+    int frmax = 0, fimax = 0;
+
+    if(max == 0.0 || max <= min) max = ncount;
+
+    for(int i = min; i < ncount && i < max; i++) {
+        if(m_cp[i][0] > rmax) {
+            rmax = m_cp[i][0];
+            frmax = i;
+        }
+        if(m_cp[i][1] > imax) {
+            imax = m_cp[i][1];
+            fimax = i;
+        }
+    }
+    std::cout << "max:" << rmax << "@" << frmax << " / " << imax << "@" << fimax << std::endl;
+    return fimax;
+}
