@@ -25,13 +25,4 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 2
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://michael-korte-software.visualstudio.com/defaultcollection
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = GraphicPulseRateDetector\\GraphicPulseRateDetector.vcxproj
-		SccProjectName1 = GraphicPulseRateDetector
-		SccLocalPath1 = GraphicPulseRateDetector
-	EndGlobalSection
 EndGlobal

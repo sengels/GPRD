@@ -2,6 +2,7 @@
 #pragma once
 #include <opencv2/imgproc.hpp>
 #include <list>
-double GetPulse(cv::Mat timeVector);
+double GetPulse(std::list<cv::Mat> timeVector);
+unsigned char getAverage(cv::Mat m);
 //int computeValue(cv::Mat frame, int x, int y);
 //int list2array(int inputArray[], std::list<int>vectorValues);

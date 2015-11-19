@@ -62,7 +62,7 @@ int main(int argc, char** argv) // funktionierende Version
 	cv::Mat frameOutcut;
 	std::list<cv::Mat> timeVector(600); //60 frames/sec * 10 sec
 
-	int i;
+	//int i;
 	/*
 	for (i = 1, i = 600, i++);
 	{
@@ -84,7 +84,13 @@ int main(int argc, char** argv) // funktionierende Version
 		cv::putText(frame, std::to_string(frameRate),cv::Point(0,50),cv::FONT_HERSHEY_COMPLEX,1,cv::Scalar(255,0,0),1,1,0);
 
 		imshow(windowName, frame);
-		
+		cv::Mat channels[3];
+		cv::split(frameOutcut, channels);
+
+		// channel 0==blue, channel 1==green, channel 2==red
+		imshow(greenFilterWindowName, channels[1]);
+
+		getAverage(channels[2]);
 	
 		cv::Mat greenFiltered;
 		//green and ranges should be h:53-90 s:74-147 v: 160-255

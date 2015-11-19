@@ -9,7 +9,20 @@
 #include <iostream>
 #include "GetPulse.h"
 
-double GetPulse(cv::Mat timeVector) //RGB Wert rausholen aus cv Mat in bekanntes Format
+unsigned char getAverage(cv::Mat m)
+{
+
+	long l = m.elemSize();
+	printf("%i (%i,%i) %i\n", l, m.rows, m.cols, m.at<unsigned char>(0, 0));
+	cv::Scalar mean = cv::mean(m);
+	std::cout << mean.val[0] << " " << mean.val[1] << " " << mean.val[2] << std::endl;
+
+	/*    for (cv::MatConstIterator it = m.begin(); m != m.end(); ++it) {
+	}*/
+	return (unsigned char)mean.val[0];
+}
+
+double GetPulse(std::list<cv::Mat> timeVector) //RGB Wert rausholen aus cv Mat in bekanntes Format
 {
 	double ret = 0;
 	cv::_OutputArray output;
@@ -24,17 +37,23 @@ double GetPulse(cv::Mat timeVector) //RGB Wert rausholen aus cv Mat in bekanntes
 
 		vectorValues.push_back(value);		//erstellt eine Liste vectorValues mit Inhalten von values
 	}
-
+	for(std::list<cv::Mat>::iterator it = timeVector.begin(); it != timeVector.end(); ++it) {
+inArray.push_back(*it);
+}
 	int inputArray[600];
 	*/
 	//list2array(inputArray, vectorValues);
-
+	cv::Mat inArray;
+	for (std::list<cv::Mat>::iterator it = timeVector.begin(); it != timeVector.end(); ++it) {
+		inArray.push_back(*it);
+	}
+	float pulseValue;
 	//output = cv::compareHist(inputArray,...);
-	cv::dft(timeVector, output, cv::DFT_ROWS, 600);		//DFT_SCALE? cv array
+	cv::dft(inArray, output, cv::DFT_ROWS, 600);		//DFT_SCALE? cv array
 	//geht erst im Nachhinein. Funktion erwartet openCV format
 	//vectorElement = ein Element aus der Matrix mit Koordinaten (x,y)
 
-		return 0;
+		return pulseValue;
 }
 
 //Bild einlesen -> cv-Format -> Bild bearbeiten mit openCV Funktionen/Filter 
