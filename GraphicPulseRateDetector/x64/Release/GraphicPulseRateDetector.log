@@ -1,26 +1,15 @@
-﻿Build started 11.11.2015 11:31:10.
+﻿Build started 19.11.2015 13:54:55.
      1>Project "C:\Users\Michael\documents\visual studio 2015\Projects\GraphicPulseRateDetector\GraphicPulseRateDetector\GraphicPulseRateDetector.vcxproj" on node 2 (Build target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /IC:\OpenCV\opencv\build\include /Zi /nologo /W3 /WX- /sdl /O2 /Oi /GL /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yu"stdafx.h" /Fp"x64\Release\GraphicPulseRateDetector.pch" /Fo"x64\Release\\" /Fd"x64\Release\vc140.pdb" /Gd /TP /errorReport:prompt GetPulse.cpp
-         GetPulse.cpp
-     1>GetPulse.cpp(3): warning C4627: '#include <opencv2/opencv.hpp>': skipped when looking for precompiled header use
-         GetPulse.cpp(3): note: Add directive to 'stdafx.h' or rebuild precompiled header
-     1>GetPulse.cpp(4): warning C4627: '#include <opencv2/imgproc.hpp>': skipped when looking for precompiled header use
-         GetPulse.cpp(4): note: Add directive to 'stdafx.h' or rebuild precompiled header
-     1>GetPulse.cpp(5): warning C4627: '#include <opencv2/core/mat.hpp>': skipped when looking for precompiled header use
-         GetPulse.cpp(5): note: Add directive to 'stdafx.h' or rebuild precompiled header
-     1>GetPulse.cpp(6): warning C4627: '#include "highgui.hpp"': skipped when looking for precompiled header use
-         GetPulse.cpp(6): note: Add directive to 'stdafx.h' or rebuild precompiled header
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /IC:\OpenCV\opencv\build\include /Zi /nologo /W3 /WX- /sdl /O2 /Oi /GL /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"x64\Release\\" /Fd"x64\Release\vc140.pdb" /Gd /TP /errorReport:prompt GraphicPulseRateDetector.cpp
-         GraphicPulseRateDetector.cpp
-     1>GraphicPulseRateDetector.cpp(117): error C2664: 'double GetPulse(cv::Mat)': cannot convert argument 1 from 'std::list<cv::Mat,std::allocator<_Ty>>' to 'cv::Mat'
-                 with
-                 [
-                     _Ty=cv::Mat
-                 ]
-         GraphicPulseRateDetector.cpp(117): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+     1>Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Michael\documents\visual studio 2015\Projects\GraphicPulseRateDetector\x64\Release\GraphicPulseRateDetector.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:C:\OpenCV\opencv\build\x64\vc12\lib opencv_ts300.lib opencv_world300.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\Michael\documents\visual studio 2015\Projects\GraphicPulseRateDetector\x64\Release\GraphicPulseRateDetector.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG:incremental /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Michael\documents\visual studio 2015\Projects\GraphicPulseRateDetector\x64\Release\GraphicPulseRateDetector.lib" /MACHINE:X64 x64\Release\GetPulse.obj
+         x64\Release\GraphicPulseRateDetector.obj
+         x64\Release\stdafx.obj
+         Generating code
+     1>c:\users\michael\documents\visual studio 2015\projects\graphicpulseratedetector\graphicpulseratedetector\getpulse.cpp(56): error C4700: uninitialized local variable 'pulseValue' used
+         All 260 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+     1>LINK : fatal error LNK1257: code generation failed
      1>Done Building Project "C:\Users\Michael\documents\visual studio 2015\Projects\GraphicPulseRateDetector\GraphicPulseRateDetector\GraphicPulseRateDetector.vcxproj" (Build target(s)) -- FAILED.
 
 Build FAILED.
 
-Time Elapsed 00:00:04.20
+Time Elapsed 00:00:00.93
